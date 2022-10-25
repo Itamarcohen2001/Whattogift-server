@@ -1,0 +1,19 @@
+{
+  "name": "whattogift-server",
+  "version": "1.0.0",
+  "description": "what to gift server api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Itamarcohen2001/Whattogift-server.git"
+  },
+  "author": "itamar cohen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Itamarcohen2001/Whattogift-server/issues"
+  },
+  "homepage": "https://github.com/Itamarcohen2001/Whattogift-server#readme"
+}
