@@ -11,7 +11,7 @@ const mongoUrl = 'mongodb+srv://whattogift-user:IIm7TVwmyzo7Afbt@cluster0.o0jjkr
 /////////////////////////////////ROUTES//////////////////////
 import accountRoute from './controllers/account.js'
 app.use('/api/account',accountRoute);
-///////////////////////////////END OF ROUTES/////////////////////
+///////////////////////////////END OF ROUTES/////////////////
 const port = 3001;
 
 //connect to DataBase
