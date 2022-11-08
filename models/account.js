@@ -6,6 +6,7 @@ const accountSchema = new Schema({
     email: {type: String, required:true},
     password: {type: String, required:true},
     createdAt: {type : Date, default : Date.now},
+    _id:String,
     fisrtName:String,
     lastName: String,
     dob:Date,
