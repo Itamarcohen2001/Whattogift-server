@@ -108,6 +108,8 @@ router.post('/signup', async (request, response) => {
         //Get user login data
         const {email,password}=req.body;
         //Check if user exist and password match
+        console.log(email);
+        console.log(password);
         Account.findOne({email:email})
         .then(async account=>{
             const isMatch=await bcryptjs.compare(password ,account.password);
@@ -117,13 +119,13 @@ router.post('/signup', async (request, response) => {
                 const token = await jwt.sign(data, '62C28A582F1DC55B1B66EFD2841BB')
 
                 return res.status(200).json({
-                    status:false,
-                    message:'verify code not match',
+                    status:true,
+                    message:account,
                     token:token
                 })
             }
             else{
-                return res.status(500).json({
+                return res.status(200).json({
                     status:false,
                     message:'username or password not match or account not verified' 
                 })
@@ -132,7 +134,7 @@ router.post('/signup', async (request, response) => {
         .catch(error =>{
             return res.status(500).json({
                 status:false,
-                message:'verify code not match'
+                message:error.message
             })
         })
         //Genertae JWT token
