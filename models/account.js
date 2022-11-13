@@ -7,7 +7,7 @@ const accountSchema = new Schema({
     password: {type: String, required:true},
     createdAt: {type : Date, default : Date.now},
     _id:String,
-    fisrtName:String,
+    firstName:String,
     lastName: String,
     dob:Date,
     gender: String,
