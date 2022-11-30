@@ -1,27 +1,33 @@
 import express from "express";
+import bp from 'body-parser';
 import mongoose from "mongoose";
 
 const app = express();
 
-app.use(express.json());
+app.use(bp.urlencoded({extended:false}));
+app.use(bp.json());
 
-const mongoUrl = 'mongodb+srv://whattogift-user:IIm7TVwmyzo7Afbt@cluster0.o0jjkre.mongodb.net/whattogiftdb?retryWrites=true&w=majority';
-/////////////////////////////////ROUTES//////////////////////
-import accountRoute from './controllers/account.js'
-app.use('/api/account',accountRoute);
+const mongoUrl = 'mongodb+srv://whatogift-user:JkqjBfxJpI3EdNcC@cluster0.evlpywq.mongodb.net/whatogiftdb?retryWrites=true&w=majority';
 
-import conpainiesRoute from './controllers/company.js';
-app.use('/api/company',conpainiesRoute);
-///////////////////////////////END OF ROUTES/////////////////
+
+///////////////////////////////ROUTES/////////////////////////////////
+import accountRoute from './controllers/account.js';
+app.use('/api/account', accountRoute);
+
+import companiesRoute from './controllers/company.js';
+app.use('/api/company', companiesRoute);
+
+import productRoute from './controllers/product.js';
+app.use('/api/product', productRoute);
+//---------------------END OF ROUTES -----------------------------////
+
+
 const port = 3001;
 
-//connect to DataBase
 mongoose.connect(mongoUrl)
 .then(results => {
     app.listen(port, function(){
         console.log(`Server is running via port ${port}`);
     });
 })
-.catch(error => {console.log(error.message) });
-
-
+.catch(error => { console.log(error.message) })
