@@ -7,12 +7,13 @@ import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express();
 
-app.use(bp.urlencoded({extended:false}));
+app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 
 const mongoUrl = 'mongodb+srv://whatogift-user:JkqjBfxJpI3EdNcC@cluster0.evlpywq.mongodb.net/whatogiftdb?retryWrites=true&w=majority';
 
 const options = {
+
     definition: {
         openapi: '3.0.0',
         info: {
@@ -24,8 +25,23 @@ const options = {
                 url: 'http://localhost:3001'
             }
         ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            }
+        },
+        security:
+            [
+                {
+                    bearerAuth: []
+                }
+            ]
     },
-    apis:['./controllers/*.js']
+    apis: ['./controllers/*.js']
 }
 
 const swaggerSpac = swaggerJSDoc(options);
@@ -46,9 +62,9 @@ app.use('/api/product', productRoute);
 const port = 3001;
 
 mongoose.connect(mongoUrl)
-.then(results => {
-    app.listen(port, function(){
-        console.log(`Server is running via port ${port}`);
-    });
-})
-.catch(error => { console.log(error.message) })
+    .then(results => {
+        app.listen(port, function () {
+            console.log(`Server is running via port ${port}`);
+        });
+    })
+    .catch(error => { console.log(error.message) })

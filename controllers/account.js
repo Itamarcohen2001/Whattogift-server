@@ -11,7 +11,54 @@ import Auth from './auth.js';
 
 //MODELS
 import Account from '../models/account.js';
+/**
+ * @swagger
+ * definitions:
+ *  Signup:
+ *      type: object
+ *      properties:
+ *          email:
+ *              type: string
+ *          password:
+ *              type: string
+ *          firstName:
+ *              type: string   
+ *          lastName:
+ *              type: string
+ *  Verify:
+ *      type: object
+ *      properties:
+ *          email:
+ *              type: string
+ *          code:
+ *              type: integer
+ *  Login:
+ *      type: object
+ *      properties:
+ *          email:
+ *              type: string
+ *          password:
+ *              type: string
+*/
 
+/**
+ * @swagger
+ * /api/account/signup:
+ *  post:
+ *      summary: signup
+ *      description: Use this endpoint to signup
+ *      tags: [Account]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/definitions/Signup'
+ *      responses:
+ *          200:
+ *              description: signup success
+ *          500:
+ *              description: signup faild
+ */
 router.post('/signup', async (request, response) => {
     const id = mongoose.Types.ObjectId();
     //Get user register data
@@ -69,7 +116,24 @@ router.post('/signup', async (request, response) => {
     //Send verivication code 
 })
 
-
+/**
+ * @swagger
+ * /api/account/verify:
+ *  post:
+ *      summary: verify new account
+ *      description: Use this endpoint to verify the account 
+ *      tags: [Account]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/definitions/Verify'
+ *      responses:
+ *          200:
+ *              description: signup success
+ *          500:
+ *              description: signup faild
+ */
 router.post('/verify', async (req, res) => {
     //Get code+email
     const { email, code } = req.body;
@@ -108,6 +172,24 @@ router.post('/verify', async (req, res) => {
     //Update db false true
 
 })
+/**
+ * @swagger
+ * /api/account/login:
+ *  post:
+ *      summary: login
+ *      description: Use this endpoint to login to the account
+ *      tags: [Account]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/definitions/Login'
+ *      responses:
+ *          200:
+ *              description: signup success
+ *          500:
+ *              description: signup faild
+ */
 router.post('/login', async (req, res) => {
     //Get user login data
     const { email, password } = req.body;

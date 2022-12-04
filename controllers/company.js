@@ -3,7 +3,24 @@ const router = express.Router();
 import Auth from './auth.js';
 import Company from '../models/company.js';
 import mongoose from 'mongoose';
+import { getDistance } from 'geolib';
 
+/**
+ * @swagger
+ * /api/company/get_companies:
+ *  get:
+ *   summary: Return the comapnies
+ *   tags: [Comapny]
+ *   responses:
+ *    200:
+ *     description: This is the list of all companies
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: array
+ *    500:
+ *     description: Error was found
+ */
 router.get('/get_companies',Auth,async(req,res)=>{
     Company.find()
     .then( companies => {
@@ -18,6 +35,71 @@ router.get('/get_companies',Auth,async(req,res)=>{
     })
 })
 
+/**
+ * @swagger
+ * definitions:
+ *  FindMyStore:
+ *      type: object
+ *      properties:
+ *          latitude:
+ *              type: integer
+ *          longtitude:
+ *              type: integer
+ */
+
+/**
+ * @swagger
+ * /api/company/getCompaniesDistance:
+ *  post:
+ *      summary: bla
+ *      description: bla 
+ *      tags: [Company]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/definitions/FindMyStore'
+ *      responses:
+ *          200:
+ *              description: Success
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *          500:
+ *              description: Error was found
+ */
+
+
+router.post('/get/compainies/by/location',Auth,async(req,res)=>{
+    const{latitude,longtitude}=req.body;
+    Company.find()
+    .then(companies=> {
+
+        let formattedCompanies =[];
+        companies.forEach(company=>{
+            const distance = getDistance(
+                { latitude: latitude, longitude: longtitude},
+                { latitude: company.contact.latitude, longitude: company.contact.longitude }
+            );
+            const _company = {
+                companyItem: company,
+                distanceItem: distance
+            }
+            formattedCompanies.push(_company);
+        })
+
+        return res.status(200).json({
+        
+            message: formattedCompanies
+        });
+    })
+    .catch(error => {
+        return res.status(500).json({
+            message: error.message
+        });
+    })
+})
 
 router.post('/create_company',Auth, async (req, res) => {
 
